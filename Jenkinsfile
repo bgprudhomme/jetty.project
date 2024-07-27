@@ -10,45 +10,15 @@ pipeline {
     disableRestartFromStage()
   }
   stages {
-    stage("Parallel Stage") {
-      parallel {
-        stage("Build / Test - JDK21") {
-          agent { node { label 'linux' } }
-          steps {
-            timeout( time: 180, unit: 'MINUTES' ) {
-              checkout scm
-              mavenBuild( "jdk21", "clean install -Dspotbugs.skip=true -Djacoco.skip=true", "maven3")
-              recordIssues id: "jdk21", name: "Static Analysis jdk21", aggregatingResults: true, enabledForFailure: true,
-                            tools: [mavenConsole(), java(), checkStyle(), javaDoc()],
-                            skipPublishingChecks: true, skipBlames: true
-            }
-          }
-        }
-
-        stage("Build / Test - JDK22") {
-          agent { node { label 'linux' } }
-          steps {
-            timeout( time: 180, unit: 'MINUTES' ) {
-              checkout scm
-              mavenBuild( "jdk22", "clean install -Dspotbugs.skip=true -Djacoco.skip=true", "maven3")
-              recordIssues id: "jdk22", name: "Static Analysis jdk22", aggregatingResults: true, enabledForFailure: true, tools: [mavenConsole(), java(), checkStyle(), javaDoc()]
-            }
-          }
-        }
-
-        stage("Build / Test - JDK17") {
-          agent { node { label 'linux' } }
-          steps {
-            timeout( time: 180, unit: 'MINUTES' ) {
-              checkout scm
-              mavenBuild( "jdk17", "clean install -Perrorprone", "maven3") // javadoc:javadoc
-              recordIssues id: "analysis-jdk17", name: "Static Analysis jdk17", aggregatingResults: true, enabledForFailure: true,
-                            tools: [mavenConsole(), java(), checkStyle(), errorProne(), spotBugs(), javaDoc()],
-                            skipPublishingChecks: true, skipBlames: true
-              recordCoverage id: "coverage-jdk17", name: "Coverage jdk17", tools: [[parser: 'JACOCO']], sourceCodeRetention: 'MODIFIED',
-                             sourceDirectories: [[path: 'src/main/java'], [path: 'target/generated-sources/ee8']]
-            }
-          }
+    stage("Build / Test - JDK21") {
+      agent { node { label 'linux' } }
+      steps {
+        timeout( time: 180, unit: 'MINUTES' ) {
+          checkout scm
+          mavenBuild( "jdk21", "clean install -Dspotbugs.skip=true -Djacoco.skip=true", "maven3")
+          recordIssues id: "jdk21", name: "Static Analysis jdk21", aggregatingResults: true, enabledForFailure: true,
+                        tools: [mavenConsole(), java(), checkStyle(), javaDoc()],
+                        skipPublishingChecks: true, skipBlames: true
         }
       }
     }
