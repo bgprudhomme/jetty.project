@@ -66,20 +66,23 @@ def slackNotif() {
 def mavenBuild(jdk, cmdline, mvnName) {
   script {
     try {
-      withEnv(["JAVA_HOME=${ tool "$jdk" }",
-               "PATH+MAVEN=${ tool "$jdk" }/bin:${tool "$mvnName"}/bin",
+      withEnv(["JAVA_HOME=/opt/java/openjdk",
+               "PATH+MAVEN=${tool jdk}/bin:${tool mvnName}/bin",
                "MAVEN_OPTS=-Xms3072m -Xmx5120m -Djava.awt.headless=true -client -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100"]) {
-      configFileProvider(
-        [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS'),
-          configFile(fileId: 'maven-build-cache-config.xml', variable: 'MVN_BUILD_CACHE_CONFIG')]) {
-          //sh "cp $MVN_BUILD_CACHE_CONFIG .mvn/maven-build-cache-config.xml"
-          //-Dmaven.build.cache.configPath=$MVN_BUILD_CACHE_CONFIG
+        echo "JAVA_HOME: ${env.JAVA_HOME}"
+        echo "PATH: ${env.PATH}"
+        echo "cd contents:"
+        sh "ls"
+        echo "JAVA_HOME contents:"
+        sh "ls -l ${env.JAVA_HOME}"
+        configFileProvider(
+          [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS'),
+           configFile(fileId: 'maven-build-cache-config.xml', variable: 'MVN_BUILD_CACHE_CONFIG')]) {
           buildCache = useBuildCache()
           if (buildCache) {
             echo "Using build cache"
             extraArgs = " -Dmaven.build.cache.restoreGeneratedSources=false -Dmaven.build.cache.remote.url=http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server -Daether.connector.http.supportWebDav=true "
           } else {
-            // when not using cache
             echo "Not using build cache"
             extraArgs = " -Dmaven.test.failure.ignore=true -Dmaven.build.cache.skipCache=true -Dmaven.build.cache.remote.url=http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server -Daether.connector.http.supportWebDav=true "
           }
@@ -89,14 +92,12 @@ def mavenBuild(jdk, cmdline, mvnName) {
             }
           }
           sh "mvn $extraArgs -DsettingsPath=$GLOBAL_MVN_SETTINGS -Dmaven.repo.uri=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-public/ -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.repo.local=.repository -Pci -V -B -e -U $cmdline"
-          if(saveHome()) {
+          if (saveHome()) {
             archiveArtifacts artifacts: ".repository/org/eclipse/jetty/jetty-home/**/jetty-home-*", allowEmptyArchive: true, onlyIfSuccessful: false
           }
         }
       }
-    }
-    finally
-    {
+    } finally {
       junit testResults: '**/target/surefire-reports/**/*.xml,**/target/invoker-reports/TEST*.xml', allowEmptyResults: true
     }
   }
