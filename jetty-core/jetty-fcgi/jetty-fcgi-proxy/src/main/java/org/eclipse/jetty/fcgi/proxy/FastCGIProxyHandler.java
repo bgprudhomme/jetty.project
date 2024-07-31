@@ -270,7 +270,7 @@ public class FastCGIProxyHandler extends ProxyHandler.Reverse
     protected HttpClient newHttpClient()
     {
         ClientConnector clientConnector = new ClientConnector();
-        QueuedThreadPool proxyClientThreads = new QueuedThreadPool();
+        VirtualThreadPool proxyClientThreads = new VirtualThreadPool();
         proxyClientThreads.setName("proxy-client");
         clientConnector.setExecutor(proxyClientThreads);
         return new HttpClient(new ProxyHttpClientTransportOverFCGI(clientConnector, getScriptRoot()));

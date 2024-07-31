@@ -51,7 +51,7 @@ import org.eclipse.jetty.io.ClientConnector;
 import org.eclipse.jetty.util.StringUtil;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -291,7 +291,7 @@ public abstract class AbstractProxyServlet extends HttpServlet
         }
         else
         {
-            QueuedThreadPool qtp = new QueuedThreadPool(Integer.parseInt(value));
+            VirtualThreadPool qtp = new VirtualThreadPool();
             String servletName = config.getServletName();
             int dot = servletName.lastIndexOf('.');
             if (dot >= 0)

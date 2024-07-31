@@ -52,7 +52,7 @@ import org.eclipse.jetty.util.BufferUtil;
 import org.eclipse.jetty.util.Callback;
 import org.eclipse.jetty.util.StringUtil;
 import org.eclipse.jetty.util.component.LifeCycle;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -191,7 +191,7 @@ public abstract class ProxyHandler extends Handler.Abstract
     protected HttpClient newHttpClient()
     {
         ClientConnector clientConnector = new ClientConnector();
-        QueuedThreadPool proxyClientThreads = new QueuedThreadPool();
+        VirtualThreadPool proxyClientThreads = new VirtualThreadPool();
         proxyClientThreads.setName("proxy-client");
         clientConnector.setExecutor(proxyClientThreads);
         return new HttpClient(new HttpClientTransportDynamic(clientConnector));

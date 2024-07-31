@@ -23,7 +23,7 @@ import org.eclipse.jetty.util.component.ContainerLifeCycle;
 import org.eclipse.jetty.util.compression.CompressionPool;
 import org.eclipse.jetty.util.compression.DeflaterPool;
 import org.eclipse.jetty.util.compression.InflaterPool;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 
 /**
  * A collection of components which are the resources needed for websockets such as
@@ -60,7 +60,7 @@ public class WebSocketComponents extends ContainerLifeCycle
 
         if (executor == null)
         {
-            QueuedThreadPool threadPool = new QueuedThreadPool();
+            VirtualThreadPool threadPool = new VirtualThreadPool();
             threadPool.setName("WebSocket@" + hashCode());
             _executor = threadPool;
         }

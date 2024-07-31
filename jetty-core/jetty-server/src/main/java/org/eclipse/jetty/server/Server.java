@@ -648,9 +648,7 @@ public class Server extends Handler.Wrapper implements Attributes
             {
                 multiException = ExceptionUtil.combine(multiException, e);
             }
-            QueuedThreadPool qtp = getBean(QueuedThreadPool.class);
-            if (qtp != null)
-                qtp.setStopTimeout(Math.max(1000L, NanoTime.millisUntil(end)));
+            VirtualThreadPool qtp = getBean(VirtualThreadPool.class);
         }
 
         // Now stop the connectors (this will close existing connections)
