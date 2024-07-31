@@ -16,8 +16,8 @@ pipeline {
         timeout( time: 180, unit: 'MINUTES' ) {
           sh """
           echo "Installing Java:"
-          apt-get update
-          apt-get install -y openjdk-21-jdk
+          sudo apt-get update
+          sudo apt-get install -y openjdk-21-jdk
           java -version
           """
           checkout scm
