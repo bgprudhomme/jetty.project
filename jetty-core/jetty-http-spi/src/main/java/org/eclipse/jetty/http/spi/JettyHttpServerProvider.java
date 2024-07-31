@@ -21,8 +21,8 @@ import com.sun.net.httpserver.HttpsServer;
 import com.sun.net.httpserver.spi.HttpServerProvider;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 
 /**
  * Jetty implementation of <a href="http://java.sun.com/javase/6/docs/jre/api/net/httpserver/spec/index.html">Java HTTP Server SPI</a>
@@ -45,7 +45,7 @@ public class JettyHttpServerProvider extends HttpServerProvider
 
         if (server == null)
         {
-            ThreadPool threadPool = new DelegatingThreadPool(new QueuedThreadPool());
+            ThreadPool threadPool = new DelegatingThreadPool(new VirtualThreadPool());
             server = new Server(threadPool);
 
             server.setHandler(new ContextHandlerCollection(true));

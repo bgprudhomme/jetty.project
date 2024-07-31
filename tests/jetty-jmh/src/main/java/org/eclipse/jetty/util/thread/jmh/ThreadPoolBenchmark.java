@@ -23,6 +23,7 @@ import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.thread.ExecutorThreadPool;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Measurement;
@@ -46,10 +47,10 @@ public class ThreadPoolBenchmark
 {
     public enum Type
     {
-        QTP, ETP, LQTP, LETP, AQTP, AETP;
+        QTP, ETP, VTP, LQTP, LETP, AQTP, AETP;
     }
 
-    @Param({"QTP", "ETP" /*, "LQTP", "LETP", "AQTP", "AETP" */})
+    @Param({"QTP", "ETP", "VTP" /*, "LQTP", "LETP", "AQTP", "AETP" */})
     Type type;
 
     @Param({"200"})
@@ -72,6 +73,10 @@ public class ThreadPoolBenchmark
 
             case ETP:
                 pool = new ExecutorThreadPool(size, size, new BlockingArrayQueue<>(32768, 32768));
+                break;
+                
+            case VTP:
+                pool = new VirtualThreadPool();
                 break;
 
             case LQTP:

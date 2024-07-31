@@ -38,7 +38,7 @@ import org.eclipse.jetty.util.BufferUtil;
 import org.eclipse.jetty.util.Callback;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +92,6 @@ public class SlowClientsTest
         final int maxThreads = 6;
         final int contentLength = 8 * 1024 * 1024; // 8MB
 
-        ((QueuedThreadPool)server.getThreadPool()).setMaxThreads(maxThreads);
         startServer(new Handler.Abstract()
         {
             @Override

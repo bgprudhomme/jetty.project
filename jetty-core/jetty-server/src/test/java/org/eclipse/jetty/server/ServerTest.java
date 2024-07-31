@@ -35,7 +35,7 @@ import org.eclipse.jetty.util.Callback;
 import org.eclipse.jetty.util.Jetty;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.thread.Invocable;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -149,11 +149,10 @@ public class ServerTest
     public void testDump() throws Exception
     {
         testSimpleGET();
-        ((QueuedThreadPool)(_server.getThreadPool())).tryExecute(() -> {});
+        ((VirtualThreadPool)(_server.getThreadPool())).tryExecute(() -> {});
         String dump = _server.dump();
         assertThat(dump, containsString("oejs.Server@"));
-        assertThat(dump, containsString("QueuedThreadPool"));
-        assertThat(dump, containsString("+= ReservedThreadExecutor@"));
+        assertThat(dump, containsString("VirtualThreadPool"));
         assertThat(dump, containsString(".ArrayByteBufferPool@"));
         assertThat(dump, containsString("+- System Properties size="));
         assertThat(dump, containsString("+> java.home: "));
