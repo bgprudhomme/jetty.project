@@ -14,12 +14,6 @@ pipeline {
       agent { node { label 'linux' } }
       steps {
         timeout( time: 180, unit: 'MINUTES' ) {
-          sh """
-          echo "Installing Java:"
-          sudo apt-get update
-          sudo apt-get install -y openjdk-21-jdk
-          java -version
-          """
           checkout scm
           mavenBuild( "jdk21", "clean install -Dspotbugs.skip=true -Djacoco.skip=true", "maven3")
           recordIssues id: "jdk21", name: "Static Analysis jdk21", aggregatingResults: true, enabledForFailure: true,
@@ -72,7 +66,7 @@ def slackNotif() {
 def mavenBuild(jdk, cmdline, mvnName) {
   script {
     try {
-      withEnv(["JAVA_HOME=/../usr/lib",
+      withEnv(["JAVA_HOME=/../..",
                "PATH+MAVEN=${tool jdk}/bin:${tool mvnName}/bin",
                "MAVEN_OPTS=-Xms3072m -Xmx5120m -Djava.awt.headless=true -client -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100"]) {
         echo "JAVA_HOME: ${env.JAVA_HOME}"
