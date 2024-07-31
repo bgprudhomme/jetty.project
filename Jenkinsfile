@@ -71,8 +71,10 @@ def mavenBuild(jdk, cmdline, mvnName) {
                "MAVEN_OPTS=-Xms3072m -Xmx5120m -Djava.awt.headless=true -client -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100"]) {
         echo "JAVA_HOME: ${env.JAVA_HOME}"
         echo "PATH: ${env.PATH}"
+        echo "cd contents:"
+        sh "ls"
         echo "JAVA_HOME contents:"
-        sh "ls -l /${env.JAVA_HOME}"
+        sh "ls -l ${env.JAVA_HOME}"
         sh "${env.JAVA_HOME}/bin/java -version"
         configFileProvider(
           [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS'),
