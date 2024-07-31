@@ -72,7 +72,7 @@ def mavenBuild(jdk, cmdline, mvnName) {
         echo "JAVA_HOME: ${env.JAVA_HOME}"
         echo "PATH: ${env.PATH}"
         echo "JAVA_HOME contents:"
-        sh "ls -l ${env.JAVA_HOME}"
+        sh "ls -l /${env.JAVA_HOME}"
         sh "${env.JAVA_HOME}/bin/java -version"
         configFileProvider(
           [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS'),
