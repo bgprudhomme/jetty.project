@@ -66,7 +66,7 @@ def slackNotif() {
 def mavenBuild(jdk, cmdline, mvnName) {
   script {
     try {
-      withEnv(["JAVA_HOME=/../usr",
+      withEnv(["JAVA_HOME=/../usr/lib",
                "PATH+MAVEN=${tool jdk}/bin:${tool mvnName}/bin",
                "MAVEN_OPTS=-Xms3072m -Xmx5120m -Djava.awt.headless=true -client -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100"]) {
         echo "JAVA_HOME: ${env.JAVA_HOME}"
