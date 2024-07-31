@@ -38,8 +38,8 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 @State(Scope.Benchmark)
-@Warmup(iterations = 1, time = 2000, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 1, time = 2000, timeUnit = TimeUnit.MILLISECONDS)
+@Warmup(iterations = 10, time = 2000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 10, time = 2000, timeUnit = TimeUnit.MILLISECONDS)
 public class ReservedThreadPoolBenchmark
 {
     public enum Type
