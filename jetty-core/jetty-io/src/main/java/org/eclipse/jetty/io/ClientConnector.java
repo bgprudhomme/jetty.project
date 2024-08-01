@@ -38,9 +38,9 @@ import org.eclipse.jetty.util.annotation.ManagedAttribute;
 import org.eclipse.jetty.util.annotation.ManagedObject;
 import org.eclipse.jetty.util.component.ContainerLifeCycle;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ScheduledExecutorScheduler;
 import org.eclipse.jetty.util.thread.Scheduler;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -390,7 +390,7 @@ public class ClientConnector extends ContainerLifeCycle
     {
         if (executor == null)
         {
-            QueuedThreadPool clientThreads = new QueuedThreadPool();
+            VirtualThreadPool clientThreads = new VirtualThreadPool();
             clientThreads.setName(String.format("client-pool@%x", hashCode()));
             setExecutor(clientThreads);
         }

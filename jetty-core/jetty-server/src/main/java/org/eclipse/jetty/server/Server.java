@@ -68,6 +68,7 @@ import org.eclipse.jetty.util.thread.ScheduledExecutorScheduler;
 import org.eclipse.jetty.util.thread.Scheduler;
 import org.eclipse.jetty.util.thread.ShutdownThread;
 import org.eclipse.jetty.util.thread.ThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,7 +144,7 @@ public class Server extends Handler.Wrapper implements Attributes
 
     public Server(@Name("threadPool") ThreadPool threadPool, @Name("scheduler") Scheduler scheduler, @Name("bufferPool") ByteBufferPool bufferPool)
     {
-        _threadPool = threadPool != null ? threadPool : new QueuedThreadPool();
+        _threadPool = threadPool != null ? threadPool : new VirtualThreadPool();
         installBean(_threadPool);
         _scheduler = scheduler != null ? scheduler : new ScheduledExecutorScheduler();
         installBean(_scheduler);
@@ -647,9 +648,7 @@ public class Server extends Handler.Wrapper implements Attributes
             {
                 multiException = ExceptionUtil.combine(multiException, e);
             }
-            QueuedThreadPool qtp = getBean(QueuedThreadPool.class);
-            if (qtp != null)
-                qtp.setStopTimeout(Math.max(1000L, NanoTime.millisUntil(end)));
+            VirtualThreadPool qtp = getBean(VirtualThreadPool.class);
         }
 
         // Now stop the connectors (this will close existing connections)
