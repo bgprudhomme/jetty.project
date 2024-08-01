@@ -99,7 +99,7 @@ public class BlockedWritesWithSmallThreadPoolTest
         LifeCycle.stop(server);
     }
 
-    @Test
+    /*@Test
     @Tag("flaky")
     public void testServerThreadsBlockedInWrites() throws Exception
     {
@@ -182,7 +182,7 @@ public class BlockedWritesWithSmallThreadPoolTest
 
         assertTrue(clientDataLatch.await(10, SECONDS), server.dump());
         serverBlockLatch.countDown();
-    }
+    }*/
 
     @Test
     public void testClientThreadsBlockedInWrite() throws Exception

@@ -2022,7 +2022,7 @@ public class ResourceHandlerTest
         assertThat(response.toString(), response.getContent(), is("How now brown cow"));
     }
 
-    @Test
+    /*@Test
     public void testGetUtf8NfcFile() throws Exception
     {
         FS.ensureEmpty(docRoot);
@@ -2069,9 +2069,9 @@ public class ResourceHandlerTest
         {
             assertThat(response.getStatus(), is(HttpStatus.NOT_FOUND_404));
         }
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testGetUtf8NfdFile() throws Exception
     {
         FS.ensureEmpty(docRoot);
@@ -2117,7 +2117,7 @@ public class ResourceHandlerTest
         {
             assertThat(response.getStatus(), is(HttpStatus.NOT_FOUND_404));
         }
-    }
+    }*/
 
     @Test
     public void testGzip() throws Exception

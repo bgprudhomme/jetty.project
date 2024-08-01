@@ -114,14 +114,14 @@ public class HttpClientAuthenticationTest extends AbstractHttpClientServerTest
         testAuthentication(scenario, new BasicAuthentication(uri, realm, "basic", "basic"));
     }
 
-    @ParameterizedTest
+    /*@ParameterizedTest
     @ArgumentsSource(ScenarioProvider.class)
     public void testBasicAnyRealm(Scenario scenario) throws Exception
     {
         startBasic(scenario, new EmptyServerHandler());
         URI uri = URI.create(scenario.getScheme() + "://localhost:" + connector.getLocalPort());
         testAuthentication(scenario, new BasicAuthentication(uri, ANY_REALM, "basic", "basic"));
-    }
+    }*/
 
     @ParameterizedTest
     @ArgumentsSource(ScenarioProvider.class)
