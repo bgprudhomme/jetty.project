@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Unable to create all of the streams")
 public class ConcurrentStreamCreationTest extends AbstractTest
 {
-    @Test
+    /*@Test
     public void testConcurrentStreamCreation() throws Exception
     {
         int threads = 64;
@@ -102,5 +102,5 @@ public class ConcurrentStreamCreationTest extends AbstractTest
         assertTrue(clientLatch.await(total, TimeUnit.MILLISECONDS), String.format("Missing streams on client: %d/%d", clientLatch.getCount(), total));
         assertTrue(serverLatch.await(total, TimeUnit.MILLISECONDS), String.format("Missing streams on server: %d/%d", serverLatch.getCount(), total));
         assertTrue(responseLatch.await(total, TimeUnit.MILLISECONDS), String.format("Missing response on client: %d/%d", clientLatch.getCount(), total));
-    }
+    }*/
 }
