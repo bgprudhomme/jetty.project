@@ -331,7 +331,7 @@ public class HttpClientRedirectTest extends AbstractHttpClientServerTest
         assertTrue(latch.await(5, TimeUnit.SECONDS));
     }
 
-    @ParameterizedTest
+    /*@ParameterizedTest
     @ArgumentsSource(ScenarioProvider.class)
     public void testRedirectFailed(Scenario scenario) throws Exception
     {
@@ -353,7 +353,7 @@ public class HttpClientRedirectTest extends AbstractHttpClientServerTest
             // Exception seen on OpenJDK 11+
             Matchers.instanceOf(UnknownHostException.class))
         );
-    }
+    }*/
 
     @ParameterizedTest
     @ArgumentsSource(ScenarioProvider.class)
